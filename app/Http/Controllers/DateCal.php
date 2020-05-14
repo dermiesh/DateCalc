@@ -9,14 +9,14 @@ use Carbon\Carbon;
 
 
 class DateCal extends Controller
-{
+  {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index($id = 0)
-    {
+      {
         
         // Fetch all records
         $userData['data'] = DateCalculations::getuserData();
@@ -24,18 +24,20 @@ class DateCal extends Controller
         $userData['edit'] = $id;
         
         // Fetch edit record
-        if ($id > 0) {
+        if ($id > 0)
+          {
             $userData['editData'] = DateCalculations::getuserData($id);
-        }
+          }
         
         // Pass to view
         return view('index')->with("userData", $userData);
-    }
+      }
     
     public function save(Request $request)
-    {
+      {
         
-        if ($request->input('submit') != null) {
+        if ($request->input('submit') != null)
+          {
             $date1 = $request->input('date1');
             $date2 = $request->input('date2');
             
@@ -45,11 +47,13 @@ class DateCal extends Controller
             $day_amt = $to->diffInDays($from);
             
             // Update record
-            if ($request->input('editid') != null) {
+            if ($request->input('editid') != null)
+              {
                 $editid = $request->input('editid');
                 //  var_dump($_POST);
                 
-                if ($date1 != '' && $date2 != '' && $day_amt != '' && $editid != '') {
+                if ($date1 != '' && $date2 != '' && $day_amt != '' && $editid != '')
+                  {
                     $data = array(
                         'date1' => $date1,
                         "date2" => $date2,
@@ -61,12 +65,15 @@ class DateCal extends Controller
                     
                     Session::flash('message', 'Update successfully.');
                     
-                }
+                  }
                 
-            } else { // Insert record
+              }
+            else // Insert record
+              {
                 
                 
-                if ($date1 != '' && $date2 != '' && $day_amt != '') {
+                if ($date1 != '' && $date2 != '' && $day_amt != '')
+                  {
                     $data = array(
                         'date1' => $date1,
                         "date2" => $date2,
@@ -76,65 +83,74 @@ class DateCal extends Controller
                     // Insert
                     $value = DateCalculations::insertData($data);
                     
-                    if ($value) {
+                    if ($value)
+                      {
                         Session::flash('message', 'Insert successfully.');
-                    } else {
+                      }
+                    else
+                      {
                         Session::flash('message', 'Data already exists.');
-                    }
+                      }
                     
-                }
-            }
+                  }
+              }
             
-        }
-		return redirect()->action('DateCal@index',['id'=>0]);
+          }
+        return redirect()->action('DateCal@index',['id'=>0]);
         
-    }
-	public function AjaxSave(Request $request)
-    {
-        $_POST['statusCode']=201;
-		if ($request->input('action') == 'Add') {
-			
-			
-			 $date1 = $request->input('date1');
-            $date2 = $request->input('date2');
+      }
+    public function AjaxSave(Request $request)
+      {
+        $_POST['statusCode'] = 201;
+        if ($request->input('action') == 'Add')
+          {
+            
+            
+            $date1   = $request->input('date1');
+            $date2   = $request->input('date2');
             $day_amt = $request->input('day_amt');
             
             
-             // Insert record
+            // Insert record
+            
+            if ($date1 != '' && $date2 != '' && $day_amt != '')
+              {
+                $data = array(
+                    'date1' => $date1,
+                    "date2" => $date2,
+                    "day_amt" => $day_amt
+                );
                 
-                if ($date1 != '' && $date2 != '' && $day_amt != '') {
-                    $data = array(
-                        'date1' => $date1,
-                        "date2" => $date2,
-                        "day_amt" => $day_amt
-                    );
-                    
-                    // Insert
-                    $value = DateCalculations::insertData($data);
-                    if ($value) {
-						$_POST['statusCode']=200;
-                        Session::flash('message', 'Insert successfully.');
-                    } else {
-                        Session::flash('message', 'Data already exists.');
-                    }
-                    
-                }
-		}
-		
-		echo json_encode($_POST);
-       
-    }
+                // Insert
+                $value = DateCalculations::insertData($data);
+                if ($value)
+                  {
+                    $_POST['statusCode'] = 200;
+                    Session::flash('message', 'Insert successfully.');
+                  }
+                else
+                  {
+                    Session::flash('message', 'Data already exists.');
+                  }
+                
+              }
+          }
+        
+        echo json_encode($_POST);
+        
+      }
     
     public function deleteUser($id = 0)
-    {
+      {
         
-        if ($id != 0) {
+        if ($id != 0)
+          {
             // Delete
             DateCalculations::deleteData($id);
             
             Session::flash('message', 'Delete successfully.');
             
-        }
-		return redirect()->action('DateCal@index',['id'=>0]);
-    }
-}
+          }
+        return redirect()->action('DateCal@index',['id'=>0]);
+      }
+  }
