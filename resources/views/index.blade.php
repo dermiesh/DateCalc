@@ -193,6 +193,16 @@
                     if (date1 != "" && date2 != "") {
                         //   $("#butsave").attr("disabled", "disabled");
                         var NumDays = checkDate();
+						
+						var newRow = '<tr>';
+						newRow += "\n\t<td>" + date1 + "</td>";
+						newRow += "\n\t<td>" + date2 + "</td>";
+						newRow += "\n\t<td>" + NumDays + "</td>";
+						newRow += "\n\t<td></td>";
+						newRow += '</tr>';
+						$("table tbody").prepend(newRow);
+						
+						
 
                         $.ajax({
                             url: "http://localhost/dre/laravel/public/AjaxSave",
