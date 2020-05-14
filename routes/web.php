@@ -15,4 +15,5 @@
 Route::get('/', 'DateCal@index'); // localhost:8000/
 Route::get('/{id}', 'DateCal@index');
 Route::post('/save', 'DateCal@save');
+Route::post('/AjaxSave', 'DateCal@AjaxSave');
 Route::get('/deleteUser/{id}', 'DateCal@deleteUser');
