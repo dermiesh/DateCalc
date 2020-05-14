@@ -87,14 +87,11 @@
                 <div class="alert alert-info" role="alert">
                     {{ Session::get('message') }}
                 </div>
+                @endif @if($userData['edit'])
+                <h3 id="ShowDays">{{ $userData["editData"]->day_amt }} Days</h3>
+                @else
+                <h3 id="ShowDays">0 Days</h3>
                 @endif
-				
-				 @if($userData['edit'])
-				<h3 id="ShowDays">{{ $userData["editData"]->day_amt }} Days</h3>
-				@else
-				<h3 id="ShowDays">0 Days</h3>
-				@endif
-                
 
                 <div class="row">
                     <form method="post" action="http://localhost/dre/laravel/public/save">
@@ -115,9 +112,9 @@
                                 <div class="form-group">
                                     <strong>End Date:</strong>
                                     @if($userData['edit'])
-                                    <input type="date" class="form-control" id="date2"  onchange="checkDate()" placeholder="Enter End Date" name="date2" value='{{ $userData["editData"]->date2 }}' />
+                                    <input type="date" class="form-control" id="date2" onchange="checkDate()" placeholder="Enter End Date" name="date2" value='{{ $userData["editData"]->date2 }}' />
                                     @else
-                                    <input type="date" class="form-control" id="date2"  onchange="checkDate()" placeholder="Enter End Date" name="date2" />
+                                    <input type="date" class="form-control" id="date2" onchange="checkDate()" placeholder="Enter End Date" name="date2" />
                                     @endif
                                 </div>
                             </div>
@@ -166,18 +163,18 @@
             function checkDate() {
                 var dt1 = new Date($("#date1").val());
                 var dt2 = new Date($("#date2").val());
-				var days = diff_hours(dt1, dt2);
-				var ShowDays= document.getElementById('ShowDays');
-               
-			   if(isNaN(days)){
-				   ShowDays.innerHTML =0 + " Days";
-			   }else{
-				   ShowDays.innerHTML =days + " Days";
-			   }
-			   
-			   return days;
+                var days = diff_hours(dt1, dt2);
+                var ShowDays = document.getElementById("ShowDays");
+
+                if (isNaN(days)) {
+                    ShowDays.innerHTML = 0 + " Days";
+                } else {
+                    ShowDays.innerHTML = days + " Days";
+                }
+
+                return days;
             }
-			
+
             function diff_hours(dt2, dt1) {
                 var diff = (dt2.getTime() - dt1.getTime()) / 1000;
                 diff /= 60 * 60;
@@ -187,48 +184,42 @@
 
                 return days;
             }
-			
-			$(document).ready(function() {
-			   
-				$('#butsavex').on('click', function() {
-				  var date1 = $("#date1").val();
-                  var date2 = $("#date2").val();
-				  
-				  if(date1!="" && date2!=""){
-					//   $("#butsave").attr("disabled", "disabled");
-					var NumDays=checkDate();
-					
-					  $.ajax({
-						  url: "http://localhost/dre/laravel/public/AjaxSave",
-						  type: "POST",
-						  data: {
-							  _token: "{{ csrf_token() }}",
-							  action: 'Add',
-							  date1: date1,
-							  date2: date2,
-							  day_amt: NumDays
-						  },
-						  cache: false,
-						  success: function(dataResult){
-							 // console.log(dataResult);
-							  var dataResult = JSON.parse(dataResult);
-							  if(dataResult.statusCode==200){
-								window.location = "http://localhost/dre/laravel/public/";					
-							  }
-							   else if(dataResult.statusCode==201){
-								 alert("Error occured. Please Try Again !");
-							  }
-							  
-						  }
-					  });
-				  }
-				  else{
-					  alert('Please fill all the field !');
-				  }
-			  });
-			});
-           
-            
+
+            $(document).ready(function () {
+                $("#butsavex").on("click", function () {
+                    var date1 = $("#date1").val();
+                    var date2 = $("#date2").val();
+
+                    if (date1 != "" && date2 != "") {
+                        //   $("#butsave").attr("disabled", "disabled");
+                        var NumDays = checkDate();
+
+                        $.ajax({
+                            url: "http://localhost/dre/laravel/public/AjaxSave",
+                            type: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                action: "Add",
+                                date1: date1,
+                                date2: date2,
+                                day_amt: NumDays,
+                            },
+                            cache: false,
+                            success: function (dataResult) {
+                                // console.log(dataResult);
+                                var dataResult = JSON.parse(dataResult);
+                                if (dataResult.statusCode == 200) {
+                                    window.location = "http://localhost/dre/laravel/public/";
+                                } else if (dataResult.statusCode == 201) {
+                                    alert("Error occured. Please Try Again !");
+                                }
+                            },
+                        });
+                    } else {
+                        alert("Please fill all the field !");
+                    }
+                });
+            });
         </script>
     </body>
 </html>
