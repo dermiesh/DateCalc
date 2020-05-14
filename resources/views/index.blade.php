@@ -77,7 +77,7 @@
         <div class="container">
             <div class="row"></div>
         </div>
-        <div class="flex-center position-ref full-height">
+        <div class="flex-center position-ref">
             <div class="content">
                 <div class="title m-b-md">
                     Laravel
@@ -88,7 +88,13 @@
                     {{ Session::get('message') }}
                 </div>
                 @endif
-                <h3 id="ShowDays">0</h3>
+				
+				 @if($userData['edit'])
+				<h3 id="ShowDays">{{ $userData["editData"]->day_amt }} Days</h3>
+				@else
+				<h3 id="ShowDays">0 Days</h3>
+				@endif
+                
 
                 <div class="row">
                     <form method="post" action="http://localhost/dre/laravel/public/save">
@@ -121,6 +127,7 @@
                                 <input class="btn btn-primary" type="submit" name="submit" id="butsave" value="Update" />
                                 @else
                                 <input class="btn btn-primary" type="submit" name="submit" id="butsave" value="Submit" />
+                                <span class="btn btn-primary" type="submit" name="submit" id="butsavex">Ajax Add</span>
                                 @endif
                             </div>
                         </div>
@@ -160,17 +167,15 @@
                 var dt1 = new Date($("#date1").val());
                 var dt2 = new Date($("#date2").val());
 				var days = diff_hours(dt1, dt2);
-				var fieldNameElement= document.getElementById('ShowDays');
+				var ShowDays= document.getElementById('ShowDays');
                
 			   if(isNaN(days)){
-				   fieldNameElement.innerHTML =0;
-					
+				   ShowDays.innerHTML =0 + " Days";
 			   }else{
-				   fieldNameElement.innerHTML =days;
+				   ShowDays.innerHTML =days + " Days";
 			   }
-					
-					
-					
+			   
+			   return days;
             }
 			
             function diff_hours(dt2, dt1) {
@@ -182,16 +187,48 @@
 
                 return days;
             }
-
-            $(document).ready(function () {
-                $("#butsave").on("click", function () {
-                    var date1 = $("#date1").val();
-                    var date2 = $("#date2").val();
-                    if (date1 == "" && date2 == "") {
-                        alert("Please fill all the field !");
-                    }
-                });
-            });
+			
+			$(document).ready(function() {
+			   
+				$('#butsavex').on('click', function() {
+				  var date1 = $("#date1").val();
+                  var date2 = $("#date2").val();
+				  
+				  if(date1!="" && date2!=""){
+					//   $("#butsave").attr("disabled", "disabled");
+					var NumDays=checkDate();
+					
+					  $.ajax({
+						  url: "http://localhost/dre/laravel/public/AjaxSave",
+						  type: "POST",
+						  data: {
+							  _token: "{{ csrf_token() }}",
+							  action: 'Add',
+							  date1: date1,
+							  date2: date2,
+							  day_amt: NumDays
+						  },
+						  cache: false,
+						  success: function(dataResult){
+							 // console.log(dataResult);
+							  var dataResult = JSON.parse(dataResult);
+							  if(dataResult.statusCode==200){
+								window.location = "http://localhost/dre/laravel/public/";					
+							  }
+							   else if(dataResult.statusCode==201){
+								 alert("Error occured. Please Try Again !");
+							  }
+							  
+						  }
+					  });
+				  }
+				  else{
+					  alert('Please fill all the field !');
+				  }
+			  });
+			});
+           
+            
         </script>
     </body>
 </html>
