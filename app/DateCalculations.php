@@ -10,7 +10,7 @@ class DateCalculations extends Model
 	public static function getuserData($id=0){
 
     if($id==0){
-      $value=DB::table('date_calculations')->orderBy('id', 'asc')->get(); 
+      $value=DB::table('date_calculations')->orderBy('id', 'desc')->get(); 
     }else{
       $value=DB::table('date_calculations')->where('id', $id)->first();
     }
