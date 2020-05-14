@@ -94,7 +94,7 @@
                 @endif
 
                 <div class="row">
-                    <form method="post" action="http://localhost/dre/laravel/public/save">
+                    <form method="post" action="/save">
                         <div class="row">
                             {{ csrf_field() }}
 
@@ -149,8 +149,8 @@
                                 <td>{{ $dates->date2 }}</td>
                                 <td>{{ $dates->day_amt }}</td>
                                 <td>
-                                    <a class="btn btn-info" href="http://localhost/dre/laravel/public/{{ $dates->id }}"><i class="fa fa-edit"></i></a>
-                                    <a href="http://localhost/dre/laravel/public/deleteUser/{{ $dates->id }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a class="btn btn-info" href="/{{ $dates->id }}"><i class="fa fa-edit"></i></a>
+                                    <a href="/deleteUser/{{ $dates->id }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach
@@ -205,7 +205,7 @@
 						
 
                         $.ajax({
-                            url: "http://localhost/dre/laravel/public/AjaxSave",
+                            url: "/AjaxSave",
                             type: "POST",
                             data: {
                                 _token: "{{ csrf_token() }}",
@@ -219,7 +219,7 @@
                                 // console.log(dataResult);
                                 var dataResult = JSON.parse(dataResult);
                                 if (dataResult.statusCode == 200) {
-                                    window.location = "http://localhost/dre/laravel/public/";
+                                    window.location = "/";
                                 } else if (dataResult.statusCode == 201) {
                                     alert("Error occured. Please Try Again !");
                                 }
