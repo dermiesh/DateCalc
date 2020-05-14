@@ -75,7 +75,7 @@ class DateCal extends Controller
          }
       }
  
-    }
+    } 
 		return redirect()->action('DateCal@index',['id'=>0]);
   }
 
