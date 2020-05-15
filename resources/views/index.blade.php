@@ -87,7 +87,9 @@
                 <div class="alert alert-info" role="alert">
                     {{ Session::get('message') }}
                 </div>
-                @endif @if($userData['edit'])
+                @endif 
+				
+				@if(!empty($userData["editData"]))
                 <h3 id="ShowDays">{{ $userData["editData"]->day_amt }} Days</h3>
                 @else
                 <h3 id="ShowDays">0 Days</h3>
@@ -101,7 +103,7 @@
                             <div class="col-xs-12 col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <strong>Start Date:</strong>
-                                    @if($userData['edit'])
+                                    @if(!empty($userData["editData"]))
                                     <input type="date" class="form-control" id="date1" onchange="checkDate()" placeholder="Enter Start Date" name="date1" value='{{ $userData["editData"]->date1 }}' />
                                     @else
                                     <input type="date" class="form-control" id="date1" onchange="checkDate()" placeholder="Enter Start Date" name="date1" />
@@ -111,7 +113,7 @@
                             <div class="col-xs-12 col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <strong>End Date:</strong>
-                                    @if($userData['edit'])
+                                    @if(!empty($userData["editData"]))
                                     <input type="date" class="form-control" id="date2" onchange="checkDate()" placeholder="Enter End Date" name="date2" value='{{ $userData["editData"]->date2 }}' />
                                     @else
                                     <input type="date" class="form-control" id="date2" onchange="checkDate()" placeholder="Enter End Date" name="date2" />
@@ -119,7 +121,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                                @if($userData['edit'])
+                                @if(!empty($userData["editData"]))
                                 <input type="hidden" value='{{ $userData["edit"] }}' name="editid" />
                                 <input class="btn btn-primary" type="submit" name="submit" id="butsave" value="Update" />
                                 @else
@@ -150,7 +152,7 @@
                                 <td>{{ $dates->day_amt }}</td>
                                 <td>
                                     <a class="btn btn-info" href="/{{ $dates->id }}"><i class="fa fa-edit"></i></a>
-                                    <a href="/deleteUser/{{ $dates->id }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                    <a href="/deleteUserData/{{ $dates->id }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach
