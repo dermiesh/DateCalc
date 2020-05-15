@@ -162,7 +162,7 @@
                 </div>
             </div>
         </div>
-        <script>
+        <script> 
             function checkDate() {
                 var dt1 = new Date($("#date1").val());
                 var dt2 = new Date($("#date2").val());
