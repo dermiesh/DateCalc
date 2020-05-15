@@ -7,12 +7,22 @@ use App\Controller\DateCal;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+
 
 class DateCalTest extends TestCase
 {
     
+	public function users_database_has_expected_columns()
+    {
+        $this->assertTrue( 
+          Schema::hasColumns('users', [
+            'id','date1', 'date2', 'day_amt', 'created_at', 'updated_at'
+        ]), 1);
+    }
+	
 	
    public function testAjaxSave()
 	{
@@ -32,7 +42,6 @@ class DateCalTest extends TestCase
 			//$day_amt=10;
 			$data = [
 					'action' => "Add",
-					'submit' => "Add",
 					'date1' => $St_date,
 					'date2' => $en_date,
 					'day_amt' => $day_amt,
@@ -77,8 +86,8 @@ class DateCalTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testIndexGetData() {
-       $response =$this->get('/200');
+    public function testIndexGetFakeData() {
+       $response =$this->get('/67845');
        $response->assertStatus(200);
     }
     
