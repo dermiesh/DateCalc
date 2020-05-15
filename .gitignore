@@ -13,3 +13,4 @@ yarn-error.log
 public/ - Copy.htaccess
 phpunit-tests/tests/CreatesApplication.php
 phpunit-tests/tests/Feature/ExampleTest.php
+*.php
