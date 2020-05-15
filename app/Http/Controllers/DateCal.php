@@ -11,6 +11,7 @@ use Carbon\Carbon;
 class DateCal extends Controller
   {
     /**
+	User ur56d8nzfdags is created with password qthjkbydyspt
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -96,6 +97,7 @@ class DateCal extends Controller
               }
             
           }
+		  
         return redirect()->action('DateCal@index',['id'=>0]);
         
       }
@@ -136,11 +138,12 @@ class DateCal extends Controller
               }
           }
         
-        echo json_encode($_POST);
-        
+     //   echo json_encode($_POST);
+		
+         return response()->json(array('msg'=> $msg), $_POST['statusCode']);
       }
     
-    public function deleteUser($id = 0)
+    public function deleteUserData($id = 0)
       {
         
         if ($id != 0)
