@@ -138,9 +138,8 @@ class DateCal extends Controller
               }
           }
         
-     //   echo json_encode($_POST);
-		
-         return response()->json(array('msg'=> $msg), $_POST['statusCode']);
+        echo json_encode($_POST);
+        
       }
     
     public function deleteUserData($id = 0)
