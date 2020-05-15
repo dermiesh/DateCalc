@@ -46,8 +46,6 @@ class DateCalTest extends TestCase
 					'date2' => $en_date,
 					'day_amt' => $day_amt,
 					 ];
-
-		//$response = $this->json('POST', '/save',$data);
 		
 		$response = $this->json('POST', '/AjaxSave',$data);
 		$response->assertStatus(200);
@@ -78,6 +76,26 @@ class DateCalTest extends TestCase
 		
 		$response = $this->json('POST', '/save',$data);
 		$response->assertStatus(302);
+		
+		$data = [
+					'submit' => "Add",
+					'date1' => null,
+					'date2' => null,
+					'day_amt' => null,
+					 ];
+		
+		$response = $this->json('POST', '/save',$data);
+		$response->assertStatus(302);
+		
+		$data = [
+					'submit' => "Add",
+					'date1' => "asasdsad",
+					'date2' => "asasdsad",
+					'day_amt' => "asasdsad",
+					 ];
+		
+		$response = $this->json('POST', '/save',$data);
+		$response->assertStatus(302);
 	}
 	
 	public function testIndexPage() {
@@ -86,9 +104,17 @@ class DateCalTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testIndexGetFakeData() {
+    public function testGetFakeData() {
        $response =$this->get('/67845');
        $response->assertStatus(200);
+    }
+    
+    public function testDeleteFakeData() {
+       $response =$this->get('/deleteUserData/');
+       $response->assertStatus(200);
+	   
+	   $response =$this->get('/deleteUserData/sadsa');
+       $response->assertStatus(302);
     }
     
 }
