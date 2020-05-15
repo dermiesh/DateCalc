@@ -123,10 +123,11 @@
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                 @if(!empty($userData["editData"]))
                                 <input type="hidden" value='{{ $userData["edit"] }}' name="editid" />
-                                <input class="btn btn-primary" type="submit" name="submit" id="butsave" value="Update" />
+                                <input class="btn btn-success" type="submit" name="submit" id="butsave" value="Update" />
+								<a href="/" class="btn btn-primary" >Add New</a>
                                 @else
                                 <input class="btn btn-primary" type="submit" name="submit" id="butsave" value="Submit" />
-                                <span class="btn btn-primary" type="submit" name="submit" id="butsavex">Ajax Add</span>
+                                <span class="btn btn-primary" name="submit" id="butsavex">Ajax Add</span>
                                 @endif
                             </div>
                         </div>
@@ -224,6 +225,7 @@
                                     window.location = "/";
                                 } else if (dataResult.statusCode == 201) {
                                     alert("Error occured. Please Try Again !");
+									window.location = "/";
                                 }
                             },
                         });
